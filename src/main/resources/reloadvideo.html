@@ -1,0 +1,49 @@
+<html>
+<body>
+<video
+	id='v'
+	src=''
+	controls></video>
+<p><input
+	type="button"
+	value="Random Seek"
+	onclick="randomSeek()"></input><input
+	type="button"
+	value="Random Reload"
+	onclick="randomReload()"></input></p>
+<div id="src_div">src</div>
+<div id="time_div">time</div>
+<div id="elapsed_div">elapsed time</div>
+
+</body>
+<script>
+var startTime = new Date().getTime();
+
+v.addEventListener('loadedmetadata', function(){v.play()});
+
+var testVideo = '/Music/iTunes/iTunes%20Music/Movies/youtube___ken_block_gymkhana_two_the_infomercial.mp4';
+function newurl() {
+    return testVideo+'?'+new Date().getTime();
+}
+
+v.src = newurl();
+
+function randomSeek() {
+    var time = v.duration * Math.random();
+    if (time >= 0) {
+        time_div.innerHTML = time;
+        elapsed_div.innerHTML = (new Date().getTime() - startTime)+'msec';
+	    v.currentTime = time;
+    }
+
+    setTimeout("randomSeek()", Math.random() * 1000);
+}
+
+function randomReload() {
+	v.src = newurl();
+	src_div.innerHTML = v.src;
+    elapsed_div.innerHTML = (new Date().getTime() - startTime)+'msec';
+	setTimeout("randomReload()", Math.random() * 10000);    
+}
+</script>
+</html>
