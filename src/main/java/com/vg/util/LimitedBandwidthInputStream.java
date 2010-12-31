@@ -10,16 +10,20 @@ public class LimitedBandwidthInputStream extends FilterInputStream {
     private long count;
     private final long startTime = System.currentTimeMillis();
     private long check;
+    private final long firstBurst;
 
     /**
      * 
      * @param in
      * @param limit
      *            bandwith limit in bytes per second
+     * @param firstBurst
+     *            TODO
      */
-    public LimitedBandwidthInputStream(InputStream in, long limit) {
+    public LimitedBandwidthInputStream(InputStream in, long limit, long firstBurst) {
         super(in);
         this.limit = limit;
+        this.firstBurst = firstBurst;
     }
 
     @Override
@@ -32,7 +36,7 @@ public class LimitedBandwidthInputStream extends FilterInputStream {
     }
 
     private void tryLimit() {
-        if (count > 2000000 && check >= 4096) {
+        if (count > firstBurst && check >= 4096) {
             long time = System.currentTimeMillis() - startTime + 1;
             long bps = count * 1000L / time;
             if (bps > limit) {

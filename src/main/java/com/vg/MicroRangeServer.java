@@ -16,7 +16,12 @@ public class MicroRangeServer {
     }
 
     public static class Config {
-        long bandwidthLimit = 512 * 1024L;
+        long bandwidthLimit = 2 * 1024 * 1024L;
+        long firstBurst = 5000000L;
+
+        public long getFirstBurst() {
+            return firstBurst;
+        }
 
         public long getBandwidthLimit() {
             return bandwidthLimit;

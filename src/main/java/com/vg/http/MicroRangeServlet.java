@@ -84,7 +84,7 @@ public class MicroRangeServlet extends HttpServlet {
     private InputStream limitBandwidth(InputStream in) {
         long bandwidthLimit = config.getBandwidthLimit();
         if (bandwidthLimit > 0) {
-            return new LimitedBandwidthInputStream(in, bandwidthLimit);
+            return new LimitedBandwidthInputStream(in, bandwidthLimit, config.getFirstBurst());
         }
         return in;
     }
