@@ -1,7 +1,10 @@
 package com.vg;
 
+import static org.apache.commons.lang.math.NumberUtils.toInt;
+
 import java.lang.Thread.UncaughtExceptionHandler;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
@@ -18,6 +21,7 @@ public class MicroRangeServer {
     public static class Config {
         long bandwidthLimit = 2 * 1024 * 1024L;
         long firstBurst = 5000000L;
+        int port = 8085;
 
         public long getFirstBurst() {
             return firstBurst;
@@ -30,6 +34,15 @@ public class MicroRangeServer {
         public void setBandwidthLimit(long bandwidthLimit) {
             this.bandwidthLimit = bandwidthLimit;
         }
+
+        public int getPort() {
+            return port;
+        }
+
+        public void setPort(int port) {
+            this.port = port;
+        }
+
     }
 
     private Context context;
@@ -51,6 +64,9 @@ public class MicroRangeServer {
 
     public static void main(String[] args) throws Exception {
         MicroRangeServer s = new MicroRangeServer();
+        if (args.length >= 1) {
+            s.config.setPort(toInt(args[0], s.config.getPort()));
+        }
         s.init();
         s.jetty.start();
         s.jetty.join();
