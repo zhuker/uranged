@@ -54,7 +54,7 @@ public class MicroRangeServer {
 
     void init() {
         Connector connector = new SelectChannelConnector();
-        connector.setPort(8085);
+        connector.setPort(config.getPort());
         jetty = new Server();
         jetty.addConnector(connector);
 
